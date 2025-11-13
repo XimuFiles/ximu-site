@@ -58,19 +58,33 @@
       z-index: 100;
     }
    
-    .clickable-object {
+    .coin {
       position: fixed;
-      top: 760px;    
-      left: 550px;   
+      top: 230px;    
+      left: 1375px;   
       z-index: 50;
       transition: transform 0.2s ease, filter 0.2s ease;
       cursor: pointer;
     }
 
-    .clickable-object:hover {
+    .coin:hover {
       transform: scale(1.1);
       filter: drop-shadow(0 0 10px white) brightness(1.2);
     }
+
+    .coffe {
+      position: fixed;
+      top: 315px;    
+      left: 300px;   
+      z-index: 50;
+      transition: transform 0.2s ease, filter 0.2s ease;
+      cursor: pointer;
+    }
+ 
+    .coffe:hover {
+      transform: scale(1.1);
+      filter: drop-shadow(0 0 10px white) brightness(1.2);
+    }    
   </style>
 </head>
 <body>
@@ -85,7 +99,11 @@
   <img id="animatedGif" class="gif bottom-right" src="ximu.gif" alt="animatedGIF" />
  
   <a href="https://itch.io" target="_blank">
-    <img class="clickable-object" src="coin.png" alt="Objecte clicable" />
+    <img class="coin" src="coin.png" alt="Clickable object" />
+  </a>
+
+  <a href="https://buymeacoffee.com/ximu?new=1" target="_blank">
+    <img class="coffe" src="coffe.png" alt="Clickable object" />
   </a>
 
   <script>    
