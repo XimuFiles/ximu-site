@@ -4,21 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Welcome home</title>
+
   <style>
+    /* --- GLOBAL --- */
     html, body {
       height: 100%;
       margin: 0;
       padding: 0;
       overflow: hidden;
-    }
-
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
       background-color: black;
     }
 
+    /* --- BACKGROUNDS --- */
     .background {
       position: fixed;
       top: 0;
@@ -27,7 +24,7 @@
       height: 100%;
       background-position: center center;
       background-repeat: no-repeat;
-      background-size: contain;       
+      background-size: contain;
       opacity: 0;      
     }
 
@@ -35,121 +32,132 @@
       opacity: 1;
     }
 
+    /* --- GIF --- */
     .gif {
       position: fixed;
       z-index: 10;
+      width: 15vw;
+      height: auto;
     }
 
     .gif.bottom-right {
-      top: 360px;
-      left: 1200px;
+      top: 38.5%;
+      left: 60%;
     }
-    
+
+    /* --- BUTTON --- */
     #playAudioButton {
       position: fixed;
-      bottom: 20px;
-      left: 20px;
-      padding: 10px 15px;
-      background: rgba(255,255,255,0.2);
-      color: white;
-      border: 1px solid white;
-      border-radius: 8px;
-      cursor: pointer;
-      z-index: 100;
+      top: 0%;       
+      left: 6.25%;   
+      width: 5vw;  
+      height: auto;  
+      z-index: 200;
+      cursor: pointer;      
     }
-   
-    .coin {
+
+    /* --- CLICKABLES --- */
+    .coin, .coffe {
       position: fixed;
-      top: 230px;    
-      left: 1375px;   
+      height: auto;
       z-index: 50;
       transition: transform 0.2s ease, filter 0.2s ease;
       cursor: pointer;
     }
 
-    .coin:hover {
-      transform: scale(1.1);
-      filter: drop-shadow(0 0 10px white) brightness(1.2);
+    .coin {
+      top: 24.5%;
+      left: 71.7%;
+      width: 4vw;
     }
 
     .coffe {
-      position: fixed;
-      top: 315px;    
-      left: 300px;   
-      z-index: 50;
-      transition: transform 0.2s ease, filter 0.2s ease;
-      cursor: pointer;
+      top: 35%;
+      left: 16.5%;
+      width: 14vw;
     }
- 
-    .coffe:hover {
+
+    .coin:hover, .coffe:hover {
       transform: scale(1.1);
       filter: drop-shadow(0 0 10px white) brightness(1.2);
-    }    
+    }
+
   </style>
 </head>
 <body>
+
+  <!-- BACKGROUNDS -->
   <div id="bg1" class="background"></div>
   <div id="bg2" class="background"></div>
-  
+
+  <!-- AUDIO -->
   <audio id="note1" src="note1.mp3"></audio>
   <audio id="note2" src="note2.mp3"></audio>
 
-  <button id="playAudioButton">🔊 Activate sound</button>
+  <!-- BUTTON -->
+  <img id="playAudioButton" src="button.png" alt="Toggle sound" />
 
+  <!-- GIF -->
   <img id="animatedGif" class="gif bottom-right" src="ximu.gif" alt="animatedGIF" />
- 
+
+  <!-- CLICKABLES -->
   <a href="https://itch.io" target="_blank">
-    <img class="coin" src="coin.png" alt="Clickable object" />
+    <img class="coin" src="coin.png" alt="coin" />
   </a>
 
   <a href="https://buymeacoffee.com/ximu?new=1" target="_blank">
-    <img class="coffe" src="coffe.png" alt="Clickable object" />
+    <img class="coffe" src="coffe.png" alt="coffee" />
   </a>
 
-  <script>    
-    const note1 = document.getElementById("note1"); 
-    const note2 = document.getElementById("note2"); 
+  <script>
+    /* --- AUDIO --- */
+    const note1 = document.getElementById("note1");
+    const note2 = document.getElementById("note2");
     const button = document.getElementById("playAudioButton");
 
     let audioEnabled = false;
 
     button.addEventListener("click", () => {
       audioEnabled = true;
-      // Petita reproducció inicial per desbloquejar àudios al navegador
+
+      // Inicialització per desbloquejar àudio
       note1.play().then(() => note1.pause());
       note2.play().then(() => note2.pause());
+
       button.style.display = "none"; 
     });
-    
+
+    /* --- BACKGROUND SWITCHING --- */
     const images = ["background_1.png", "background_2.png"];
+    const bg1 = document.getElementById("bg1");
+    const bg2 = document.getElementById("bg2");
+    const backgrounds = [bg1, bg2];
+
     let index = 0;
-    const bg1 = document.getElementById('bg1');
-    const bg2 = document.getElementById('bg2');
-    const elements = [bg1, bg2];
-    
+
+    // Inicial
     bg1.style.backgroundImage = `url(${images[0]})`;
     bg1.classList.add("visible");
 
     setInterval(() => {
       index = (index + 1) % images.length;
-      const current = elements[index % 2];
-      const next = elements[(index + 1) % 2];
-      
+
+      const current = backgrounds[index % 2];
+      const next = backgrounds[(index + 1) % 2];
+
       next.style.backgroundImage = `url(${images[index]})`;
       next.classList.add("visible");
       current.classList.remove("visible");
-      
+
+      // Alternate sound playback
       if (audioEnabled) {
-        if (index % 2 === 0) {
-          note1.currentTime = 0;
-          note1.play();
-        } else {
-          note2.currentTime = 0;
-          note2.play();
-        }
+        const note = index % 2 === 0 ? note1 : note2;
+        note.currentTime = 0;
+        note.play();
       }
 
     }, 1500);
   </script>
+
 </body>
 </html>
